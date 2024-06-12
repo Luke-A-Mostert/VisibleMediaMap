@@ -112,7 +112,7 @@ async function initMap() {
     var markers = [];
 
     //custom marker image
-    const markerIcon = "Data/marker.png"
+    const markerIcon = "Data/markertest.png"
 
     // Function to add a marker to the map
     function addMarker(location, name, contentString) 
@@ -121,9 +121,16 @@ async function initMap() {
         ({
             map: map,
             position: location,
+            label:
+            {
+                text: name.toString(), // Display ID as the label on the marker
+                className: 'custom-marker-label',
+                color: "white"
+
+            },
             icon: {
                url: markerIcon,
-               scaledSize: new google.maps.Size(70,63)
+               scaledSize: new google.maps.Size(20,30)
             },
             name: name
         });
@@ -134,7 +141,6 @@ async function initMap() {
 
         });
 
-        
         clusterer.addMarker(marker);
         markers.push(marker); // Store the marker in the markers array
     }
@@ -186,11 +192,11 @@ async function initMap() {
                                 <div class = "images-container">
                                     <div class = "image-item">
                                     <img src="Data/${ImageFront}" alt="Billboard Image Front">
-                                    <p><strong>${FacingFront} Facing</p>
+                                    <p><strong>${FacingFront} Face</p>
                                     </div>
                                     <div class = "image-item">
                                     <img src="Data/${ImageBack}" alt="Billboard Image Back">
-                                    <p><strong>${FacingBack} Facing</p>
+                                    <p><strong>${FacingBack} Face</p>
                                     </div>
                                 </div>
                                 <div class="info">

@@ -8,6 +8,16 @@
         overflow: hidden; /* Ensure content within the rounded corners is clipped */
     }
 
+    .custom-marker-label {
+        position: absolute;
+        top: 40px; /* Adjust top position as needed */
+        left: -4px; /* Adjust left position as needed */
+        font-size: 12px;
+        font-weight: bold;
+        color:#ffffff;
+        
+    }
+
     /*POPUP*/
     .custom-popup 
     {
@@ -25,6 +35,13 @@
     .popup-content {
         text-align: center;
     }
+
+    .popup-content h1 {
+        font-size: 40px;
+        color:rgb(127, 0, 0);
+        margin-bottom: 10px;
+    }
+    
 
     .info {
         margin-bottom: 15px;
@@ -53,6 +70,8 @@
     }
     
     .image-item p {
+        font-size: 32px;
+        color:rgb(127, 0, 0);
         margin-top: 5px; /* Space between image and label */
         font-weight: bold; /* Make the label bold */
     }
