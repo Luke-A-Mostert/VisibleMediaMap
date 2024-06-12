@@ -1,0 +1,8 @@
+ID,Lat,Long,Traffic,Location,BoardSize,ImageFront,ImageBack,FacingFront,FacingBack,Availability,Pricing
+1,41.657905,-87.661277,"""129,400/Day""",I-57 Just South of 127th Street,20x60,1_BlueIsland_ North.jpeg,1_BlueIsland_South.jpeg,North,South,NA,"""$3500/Face/4 Week Period, $2250/Production-Installation"""
+2,41.535277,-87.581111,"""64,900/Day""",I-394 Just North of Glenwood-Dyer Road,14x48,2_I394south_North.jpeg,2_I394South_South.jpeg,North,South,NA,"""$2200/Face/4 Week Period, $1650/Production-Installation"""
+3,41.537222,-87.581666,"""64,900/Day""",I-394 Just North of Glenwood-Dyer Road,14x48,3_I394North_South.jpeg,3_I394North-North.jpg,North,South,NA,"""$2200/Face/4 Week Period, $1650/Production-Installation"""
+4,41.586508,-87.714727,"""18,904/Day""",167th & Pulaski,14x48,4_Markham_East.jpeg,4_Markham_West.jpeg,East,West,NA,"""$2800/Face/4 Week Period, $1650/Production-Installation"""
+5,41.060805,-87.551435,"""26,700/Day""",Route 6 Between Torrence & Burnham,14x48,5_Calumet_East.jpeg,5_Calumet_West.jpeg,East,West,NA,"""$1200/Face/4 Week Period, $1650/Production-Installation"""
+6,41.604164,-87.582347,"""136,100/Day""",I-94 0.3 Mile North of 159th Street,20x60,6_SouthHollandSouth_North.jpeg,6_SouthHollandSouth_South.jpeg,North,South,NA,"""$3500/Face/4 Week Period, $2250/Production-Installation"""
+7,41.605828,-87.58251,"""136,100/Day""",I-94 0.2 Mile North of 159th Street,20x60,6_SouthHollandSouth_North.jpeg,6_SouthHollandSouth_South.jpeg,North,South,NA,"""$3500/Face/4 Week Period, $2250/Production-Installation"""

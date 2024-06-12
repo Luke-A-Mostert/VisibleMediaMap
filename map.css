@@ -1,0 +1,90 @@
+
+    /*MAP*/
+    #map 
+    {
+        width: 100%; /* Set the width to a percentage or specific value */
+        height: 900px; /* Set the height to a specific value */
+        border-radius: 15px; /* Adjust the border radius as needed */
+        overflow: hidden; /* Ensure content within the rounded corners is clipped */
+    }
+
+    /*POPUP*/
+    .custom-popup 
+    {
+        width: 40%;
+        height: 70%;
+        z-index: 1;
+        position: fixed;
+        background-color: white;
+        border-radius: 10px;
+        /*border: 1px solid #ccc;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);*/
+        /* Add more styling as needed */
+    }
+
+    .popup-content {
+        text-align: center;
+    }
+
+    .info {
+        margin-bottom: 15px;
+    }
+    
+    .info p {
+        margin: 5px 0;
+    }
+
+    .images-container {
+        display: flex;
+        justify-content: center; /* Center the images horizontally */
+        gap: 10px; /* Space between images */
+    }
+    
+    .image-item {
+        text-align: center; /* Center text and image */
+    }
+    
+    .image-item img {
+        width: 350px; /* Adjust as needed */
+        height: 250px;
+        object-fit: cover;
+        border-radius: 10px;
+        display: block;
+    }
+    
+    .image-item p {
+        margin-top: 5px; /* Space between image and label */
+        font-weight: bold; /* Make the label bold */
+    }
+    
+    .close-button 
+    {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        z-index: 2;
+        cursor: pointer;
+        background: rgb(255, 255, 255);
+        border: none;
+        border-radius: 10px;
+        font-size: 20px;
+        color: rgb(127, 0, 0);
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Add shadow effect */
+    }
+
+    .close-button:hover 
+    {
+        color: #ffffff;
+        background: rgb(127, 0, 0);
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        z-index: 0; /* Ensure the overlay appears below the popup */
+        pointer-events: auto; /* Enable pointer events to block interaction with the map */
+    }
