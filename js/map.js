@@ -181,9 +181,10 @@ async function initMap() {
                 values.push(currentValue.trim());
 
                 // If the number of values is correct
-                if (values.length === 12) {
-                    const [ID, Lat, Long, Traffic, Location, BoardSize, ImageFront, ImageBack, FacingFront, FacingBack, Availability, Pricing] = values;
+                if (values.length === 11) {
+                    const [ID, Lat, Long, Traffic, Location, BoardSize, ImageFront, ImageBack, FacingFront, FacingBack, Pricing] = values;
                     if (Lat && Long) {
+                        const [pricingFirstPart, pricingSecondPart] = Pricing.split(',');
                         var contentString = `
                         <div class="custom-popup">
                             <button class="close-button" onclick="closePopup()">X</button>
@@ -199,15 +200,30 @@ async function initMap() {
                                     <p><strong>${FacingBack} Face</p>
                                     </div>
                                 </div>
-                                <div class="info">
-                                    <p><strong>Board Number:</strong> ${ID}</p>
-                                    <p><strong>Traffic:</strong> ${Traffic}</p>
-                                    <p><strong>Board Size:</strong> ${BoardSize}</p>
-                                    <p><strong>Lat/Long:</strong> <a href="https://www.google.com/maps?q=${Lat},${Long}" target="_blank">${Lat + ", " + Long}</a></p>
-                                    <p><strong>Availability:</strong> ${Availability}</p>
-                                    <p><strong>Pricing:</strong> ${Pricing}</p>
-                                    <!-- Add more information here as needed -->
+                                <div class="pricing-box">
+                                    <p class="title"><strong>Pricing</strong></p>
+                                    <p>${pricingFirstPart}</p>
+                                    <p>${pricingSecondPart}</p>
                                 </div>
+                                <div class="grid-container">
+                                    <div class="grid-item">
+                                        <p class="title"><strong>Board Number</strong></p>
+                                        <p>${ID}</p>
+                                    </div>
+                                    <div class="grid-item">
+                                        <p class="title"><strong>Traffic</strong></p>
+                                        <p> ${Traffic}</p>
+                                    </div>
+                                    <div class="grid-item">
+                                        <p class="title"><strong>Board Size</strong></p>
+                                        <p> ${BoardSize}</p>
+                                    </div>
+                                    <div class="grid-item">
+                                        <p class="title"><strong>Lat/Long</strong></p>
+                                        <p> <a href="https://www.google.com/maps?q=${Lat},${Long}" target="_blank">${Lat + ", " + Long}</a></p>
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
                     `;

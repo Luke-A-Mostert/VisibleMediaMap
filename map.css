@@ -27,6 +27,7 @@
         position: fixed;
         background-color: white;
         border-radius: 10px;
+        overflow: hidden;
         /*border: 1px solid #ccc;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);*/
         /* Add more styling as needed */
@@ -79,8 +80,8 @@
     .close-button 
     {
         position: absolute;
-        top: -5px;
-        right: -5px;
+        top: 5px;
+        right: 5px;
         z-index: 2;
         cursor: pointer;
         background: rgb(255, 255, 255);
@@ -106,4 +107,55 @@
         background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
         z-index: 0; /* Ensure the overlay appears below the popup */
         pointer-events: auto; /* Enable pointer events to block interaction with the map */
+    }
+
+    .pricing-box {
+        margin-top: -5px;
+        padding: 2px;
+        color: rgb(127, 0, 0); /* Text color inside the colored box */
+        text-align: center; /* Center the text */
+        border-radius: 50%; /* Rounded corners */
+        position: relative;
+        width: 70%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 55%);
+        background-color: #E0E0E0;
+        line-height: 0.7;
+    }
+
+    .custom-popup .title {
+        font-size: 20px; /* Larger font size for pricing title */
+        font-weight: bold; /* Make the title bold */
+        color: #740000; /* Dark red color */
+        margin-bottom: 0px; /* Adjust spacing below the title */
+        line-height: 0.7;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Two columns */
+
+        gap: 10px; /* Adjust gap between grid items */
+        row-gap: 125px;
+        top: 50%;
+        left: 50%;
+        transform: translate(1%, -45%);
+    }
+    
+    .grid-item {
+        background-color: rgba(255, 215, 0, 0); /* Semi-transparent yellow background */
+        padding: 10px; /* Adjust padding as needed */
+        border-radius: 5px; /* Rounded corners */
+    }
+    
+    .grid-item h2 {
+        font-size: 20px; /* Example font size for title */
+        font-weight: bold; /* Make the title bold */
+        color: #740000; /* Dark red color */
+    }
+    
+    .grid-item p {
+        color: #000000; /* Black color */
+        margin: 8px 0; /* Adjust vertical margin */
     }
