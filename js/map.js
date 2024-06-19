@@ -9,9 +9,7 @@
     }
 
 function closePopup() {
-    console.log("Close button clicked"); // For debugging
     var popup = document.querySelector('.custom-popup');
-    console.log("Popup element:", popup); // For debugging
     if (popup) {
         popup.remove();
     }
@@ -39,6 +37,7 @@ async function initMap() {
         minimumClusterSize: 2,
         gridSize: 20,
         averageCenter: true,
+        maxZoom: 12,
         styles: [{
             url: 'Data/cluster.png', // URL of the cluster icon image
             textColor: 'white',
@@ -57,6 +56,25 @@ async function initMap() {
         }
         clusterer.setGridSize(gridSize);
     });
+
+    // Add a click event listener for the clusters
+    clusterer.addListener('clusterclick', function(cluster) {
+        var map = cluster.getMarkerClusterer().getMap();
+        var currentZoom = map.getZoom();
+        var maxZoom = cluster.getMarkerClusterer().getMaxZoom();
+        var bounds = cluster.getBounds();
+
+        map.fitBounds(bounds);
+        // This delay ensures the fitBounds has taken effect before adjusting the zoom level
+        google.maps.event.addListenerOnce(map, 'idle', function() {
+            if (currentZoom >= maxZoom || map.getZoom() > maxZoom) {
+                map.setZoom(12);
+            } else {
+                map.setZoom(12); // Adjust the increment as needed
+            }
+        });
+    });
+
     /////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -100,7 +118,7 @@ async function initMap() {
         var newLatLng = map.getProjection().fromPointToLatLng(new google.maps.Point(newPixelX, newPixelY));
          // Set the position of the popup
         popup.style.left = (map.getDiv().offsetWidth/3) + 'px';
-        popup.style.top = (map.getDiv().offsetHeight / 7) + 'px';
+        popup.style.top = (map.getDiv().offsetHeight / 9) + 'px';
     }
     
 
@@ -181,12 +199,10 @@ async function initMap() {
                 values.push(currentValue.trim());
 
                 // If the number of values is correct
-                if (values.length === 11) {
-                    const [ID, Lat, Long, Traffic, Location, BoardSize, ImageFront, ImageBack, FacingFront, FacingBack, Pricing] = values;
+                if (values.length === 13) {
+                    const [ID, Lat, Long, Traffic, Location, BoardSize, ImageFront, ImageBack, FacingFront, FacingBack, Pricing, Illuminated, Description] = values;
                     if (Lat && Long) {
-                        const [pricingFirstPart, pricingSecondPart] = Pricing.split(',');
                         var contentString = `
-                        <div class="custom-popup">
                             <button class="close-button" onclick="closePopup()">X</button>
                             <div class="popup-content">
                                 <h1>${Location}</h1>
@@ -200,10 +216,8 @@ async function initMap() {
                                     <p><strong>${FacingBack} Face</p>
                                     </div>
                                 </div>
-                                <div class="pricing-box">
-                                    <p class="title"><strong>Pricing</strong></p>
-                                    <p>${pricingFirstPart}</p>
-                                    <p>${pricingSecondPart}</p>
+                                <div class="description-box">
+                                    <p>${Description}</p>
                                 </div>
                                 <div class="grid-container">
                                     <div class="grid-item">
@@ -222,10 +236,18 @@ async function initMap() {
                                         <p class="title"><strong>Lat/Long</strong></p>
                                         <p> <a href="https://www.google.com/maps?q=${Lat},${Long}" target="_blank">${Lat + ", " + Long}</a></p>
                                     </div>
+                                    <div class="grid-item">
+                                        <p class="title"><strong>Pricing</strong></p>
+                                        <p>${Pricing}</p>
+                                    </div>
+                                    <div class="grid-item">
+                                        <p class="title"><strong>Illuminated</strong></p>
+                                        <p> ${Illuminated}</p>
+                                    </div>
+                                    
                                 </div>
                                 
                             </div>
-                        </div>
                     `;
                         addMarker({ lat: parseFloat(Lat), lng: parseFloat(Long) }, ID, contentString);
                     }

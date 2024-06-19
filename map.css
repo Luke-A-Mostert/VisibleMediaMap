@@ -21,15 +21,19 @@
     /*POPUP*/
     .custom-popup 
     {
-        width: 40%;
-        height: 70%;
+        width: 100vh;
+        height: 70vh;
+        max-width: 40%;
+        max-height: 80%;
         z-index: 1;
         position: fixed;
         background-color: white;
         border-radius: 10px;
-        overflow: hidden;
-        /*border: 1px solid #ccc;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);*/
+        overflow-y: hidden;
+        overflow-x: hidden;
+        border: 3px solid rgb(127, 0, 0);
+        position: absolute;
+        /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);*/
         /* Add more styling as needed */
     }
 
@@ -41,8 +45,12 @@
         font-size: 40px;
         color:rgb(127, 0, 0);
         margin-bottom: 10px;
+
     }
     
+    .title {
+        text-align: center;
+    }
 
     .info {
         margin-bottom: 15px;
@@ -56,18 +64,23 @@
         display: flex;
         justify-content: center; /* Center the images horizontally */
         gap: 10px; /* Space between images */
+        position: absolute;
+        left: 5vh;
+        top: 10vh;
     }
     
     .image-item {
         text-align: center; /* Center text and image */
+
     }
     
     .image-item img {
-        width: 350px; /* Adjust as needed */
-        height: 250px;
+        width: 35vh; /* Adjust as needed */
+        height: 25vh;
         object-fit: cover;
         border-radius: 10px;
         display: block;
+
     }
     
     .image-item p {
@@ -75,6 +88,7 @@
         color:rgb(127, 0, 0);
         margin-top: 5px; /* Space between image and label */
         font-weight: bold; /* Make the label bold */
+
     }
     
     .close-button 
@@ -109,19 +123,17 @@
         pointer-events: auto; /* Enable pointer events to block interaction with the map */
     }
 
-    .pricing-box {
-        margin-top: -5px;
-        padding: 2px;
+    .description-box {
         color: rgb(127, 0, 0); /* Text color inside the colored box */
+        align-items: center;
         text-align: center; /* Center the text */
-        border-radius: 50%; /* Rounded corners */
         position: relative;
-        width: 70%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, 55%);
-        background-color: #E0E0E0;
-        line-height: 0.7;
+        width: 70vh;
+        height: 11vh;
+        top: 50vh;
+        left: 5vh;
+        line-height: 1;
+        overflow: auto;
     }
 
     .custom-popup .title {
@@ -134,13 +146,16 @@
 
     .grid-container {
         display: grid;
-        grid-template-columns: 1fr 1fr; /* Two columns */
+        grid-template-columns: 1fr 1fr 1fr; /* Two columns */
+        position: absolute;
+        height: 20vh;
+        width: 70vh;
+        gap: 5px; /* Adjust gap between grid items */
+        row-gap: 0px;
+        top: 55vh;
+        left: 5vh;
+        transform: translate(1%, -80%);
 
-        gap: 10px; /* Adjust gap between grid items */
-        row-gap: 125px;
-        top: 50%;
-        left: 50%;
-        transform: translate(1%, -45%);
     }
     
     .grid-item {
