@@ -25,11 +25,11 @@
         height: 70vh;
         max-width: 40%;
         max-height: 80%;
-        z-index: 1;
+        z-index: 1002;
         position: fixed;
         background-color: white;
         border-radius: 10px;
-        overflow-y: hidden;
+        overflow-y: scroll;
         overflow-x: hidden;
         border: 3px solid rgb(127, 0, 0);
         position: absolute;
@@ -47,6 +47,8 @@
         margin-bottom: 10px;
 
     }
+
+    
     
     .title {
         text-align: center;
@@ -90,13 +92,38 @@
         font-weight: bold; /* Make the label bold */
 
     }
+
+    #mapKeyPopup {
+        position: absolute;
+        width: 350px;
+        height: fit-content;
+        top: 100px;
+        right: 10px;
+        background-color: white;
+        border: 3px solid rgb(127, 0, 0);
+        z-index: 1000; /* Ensure the popup is above other map elements */
+    }
+    .map-key-item {
+        margin-bottom: 5px;
+        margin-top: 5px;
+        margin-left: 5px;
+        margin-right: 5px;
+        font-size: 20px;
+        cursor: default;
+        color: rgb(127, 0, 0);
+    }
+
+    .map-key-item:hover {
+        color: #ffffff;
+        background: rgb(127, 0, 0);
+    }
     
     .close-button 
     {
         position: absolute;
         top: 5px;
         right: 5px;
-        z-index: 2;
+        z-index: 1003;
         cursor: pointer;
         background: rgb(255, 255, 255);
         border: none;
@@ -119,7 +146,7 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-        z-index: 0; /* Ensure the overlay appears below the popup */
+        z-index: 1001; /* Ensure the overlay appears below the popup */
         pointer-events: auto; /* Enable pointer events to block interaction with the map */
     }
 
