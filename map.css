@@ -43,7 +43,7 @@
     }
 
     .popup-content h1 {
-        font-size: 2vw;
+        font-size: 3vh;
         color:rgb(127, 0, 0);
         margin-bottom: -5px;
         position: relative;
@@ -114,6 +114,8 @@
         font-size: 20px;
         cursor: default;
         color: rgb(127, 0, 0);
+        text-indent: -1.0em;
+        padding-left: 1.5em;
     }
 
     .map-key-item:hover {
