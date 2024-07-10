@@ -3,7 +3,7 @@
     #map 
     {
         width: 100%; /* Set the width to a percentage or specific value */
-        height: 900px; /* Set the height to a specific value */
+        height: 98vh; /* Set the height to a specific value */
         border-radius: 15px; /* Adjust the border radius as needed */
         overflow: hidden; /* Ensure content within the rounded corners is clipped */
     }
@@ -21,18 +21,19 @@
     /*POPUP*/
     .custom-popup 
     {
-        width: 100vh;
-        height: 70vh;
+        width: 100vw;
+        height: 80vh;
         max-width: 40%;
         max-height: 80%;
         z-index: 1002;
         position: fixed;
         background-color: white;
         border-radius: 10px;
-        overflow-y: scroll;
+        overflow-y: hidden;
         overflow-x: hidden;
-        border: 3px solid rgb(127, 0, 0);
+        border: 5px solid rgb(127, 0, 0);
         position: absolute;
+        flex-direction: column; /* Use flexbox for layout */
         /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);*/
         /* Add more styling as needed */
     }
@@ -42,9 +43,10 @@
     }
 
     .popup-content h1 {
-        font-size: 40px;
+        font-size: 2vw;
         color:rgb(127, 0, 0);
-        margin-bottom: 10px;
+        margin-bottom: -5px;
+        position: relative;
 
     }
 
@@ -66,9 +68,9 @@
         display: flex;
         justify-content: center; /* Center the images horizontally */
         gap: 10px; /* Space between images */
-        position: absolute;
-        left: 5vh;
-        top: 10vh;
+        position: relative;
+        top: 3vh;
+
     }
     
     .image-item {
@@ -77,16 +79,17 @@
     }
     
     .image-item img {
-        width: 35vh; /* Adjust as needed */
+        width: 17vw; /* Adjust as needed */
         height: 25vh;
         object-fit: cover;
         border-radius: 10px;
         display: block;
+        border: 3px solid rgb(127, 0, 0);
 
     }
     
     .image-item p {
-        font-size: 32px;
+        font-size: 4vh;
         color:rgb(127, 0, 0);
         margin-top: 5px; /* Space between image and label */
         font-weight: bold; /* Make the label bold */
@@ -143,8 +146,8 @@
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
         background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
         z-index: 1001; /* Ensure the overlay appears below the popup */
         pointer-events: auto; /* Enable pointer events to block interaction with the map */
@@ -155,49 +158,56 @@
         align-items: center;
         text-align: center; /* Center the text */
         position: relative;
-        width: 70vh;
-        height: 11vh;
-        top: 50vh;
-        left: 5vh;
+        width: 30vw;
+        height: 15vh;
+        top: 21vh;
+        left: 5vw;
         line-height: 1;
-        overflow: auto;
+        overflow: hidden;
+        font-size: 2vh;
     }
 
     .custom-popup .title {
         font-size: 20px; /* Larger font size for pricing title */
         font-weight: bold; /* Make the title bold */
         color: #740000; /* Dark red color */
-        margin-bottom: 0px; /* Adjust spacing below the title */
+        margin-bottom: -15px; /* Adjust spacing below the title */
         line-height: 0.7;
     }
 
     .grid-container {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr; /* Two columns */
-        position: absolute;
+        grid-template-columns: repeat(3, 1fr); /* Three columns */
+        grid-auto-rows: minmax(1vh, 8vh); /* Adjust row height as needed */
+        position: relative;
         height: 20vh;
-        width: 70vh;
-        gap: 5px; /* Adjust gap between grid items */
-        row-gap: 0px;
-        top: 55vh;
-        left: 5vh;
-        transform: translate(1%, -80%);
+        width: 35vw;
+        gap: 2vw; /* Adjust gap between grid items */
+        row-gap: 1vh;
+        top: 0vh;
+        left: 0vh;
+        transform: translate(7%, -80%);
+        justify-content: center;
+        margin-bottom: 100px;
 
     }
     
     .grid-item {
         background-color: rgba(255, 215, 0, 0); /* Semi-transparent yellow background */
-        padding: 10px; /* Adjust padding as needed */
+        padding: 1vh; /* Adjust padding as needed */
         border-radius: 5px; /* Rounded corners */
     }
     
     .grid-item h2 {
-        font-size: 20px; /* Example font size for title */
+        font-size: 20px; /* Larger font size for pricing title */
         font-weight: bold; /* Make the title bold */
         color: #740000; /* Dark red color */
+        margin-bottom: -15px; /* Adjust spacing below the title */
+        line-height: 0.7;
     }
     
     .grid-item p {
         color: #000000; /* Black color */
-        margin: 8px 0; /* Adjust vertical margin */
+        font-size: 2vh;
     }
+
