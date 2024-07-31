@@ -4,6 +4,200 @@ var keyContent;
 var popupOpen = false;
 var panelData = {};
 var selectedPanel = null;
+var infoWindow;
+var currentInfoWindow;
+
+function openButtons(markerId) {
+  // Get the button container
+  const buttonContainer = document.getElementById("button-container");
+
+  // Show the button container
+  buttonContainer.style.display = "block";
+
+  // Position the button container near the marker (optional)
+  // This will depend on your map implementation. Here is an example for Google Maps:
+  //const position = marker.getPosition();
+  //const point = map.getProjection().fromLatLngToPoint(position);
+  //const scale = Math.pow(2, map.getZoom());
+  //const offset = new google.maps.Point(point.x * scale, point.y * scale);
+  //buttonContainer.style.left = `${offset.x}px`;
+  //buttonContainer.style.top = `${offset.y}px`;
+
+  const board = panelData[markerId];
+  console.log(board.panels);
+
+  var panelsArr = [];
+  Object.keys(board.panels).forEach((panelId) => {
+    panelsArr.push(board.panels[panelId]);
+  });
+
+  const panel1 = panelsArr[0];
+  const panel2 = panelsArr[1];
+  console.log(panel1);
+  console.log(panel2);
+
+  const button1 = document.getElementById("button1");
+  if (button1) {
+    button1.onclick = () => {
+      showPanel(panel1);
+    };
+  } else {
+    console.error("View Panel button not found.");
+  }
+
+  const button2 = document.getElementById("button2");
+  if (button2) {
+    button2.onclick = () => {
+      showPanel(panel2);
+    };
+  } else {
+    console.error("View Panel button not found.");
+  }
+
+  //// Optionally, you can set up button event listeners or update button content
+  //document.getElementById("button1").addEventListener("click", () => {
+  //  showPanel(name);
+  //});
+  //document.getElementById("button2").addEventListener("click", () => {
+  //  showPanel(name);
+  //});
+
+  //const panelSelector = document.getElementById("panel-selector");
+  //const panelDropdown = document.getElementById("panelDropdown");
+  //
+  //if (panelDropdown) {
+  //  panelDropdown.innerHTML = "";
+  //
+  //  const board = panelData[markerId];
+  //  if (board && board.panels) {
+  //    Object.keys(board.panels).forEach((panelId) => {
+  //      const panel = board.panels[panelId];
+  //      const option = document.createElement("option");
+  //      option.value = panel.ID;
+  //      option.text = `${panel.Facing} - ${panel.Description}`;
+  //      panelDropdown.appendChild(option);
+  //    });
+  //  } else {
+  //    console.error(`No panels found for markerId: ${markerId}`);
+  //  }
+  //
+  //  if (panelSelector) {
+  //    panelSelector.classList.remove("hidden");
+  //  } else {
+  //    console.error("Panel selector element not found.");
+  //  }
+  //
+  //  const viewPanelBtn = document.getElementById("viewPanelBtn");
+  //  if (viewPanelBtn) {
+  //    viewPanelBtn.onclick = () => {
+  //      const selectedPanelId = panelDropdown.value;
+  //      showPanel(selectedPanelId);
+  //    };
+  //  } else {
+  //    console.error("View Panel button not found.");
+  //  }
+  //} else {
+  //  console.error("Panel dropdown element not found.");
+  //}
+}
+
+function showPanel(panelId) {
+  let panelFound = false; // Flag to check if panel is found
+
+  for (const boardId in panelData) {
+    const board = panelData[boardId];
+    if (board && board.panels) {
+      for (const panelIdKey in board.panels) {
+        const panel = board.panels[panelIdKey];
+        console.log(panelId.ID);
+        if (panel.ID === panelId) {
+          const contentString = `
+            <button class="close-button" onclick="closePopup()">X</button>
+            <div class="popup-content">
+              <h1>${panel.Loc}</h1>
+              <div class="images-container">
+                <div class="image-item">
+                  <img src="Data/${panel.Img}" alt="Billboard Image Front">
+                  <p><strong>${panel.Facing} Face</strong></p>
+                </div>
+                <div id="miniMap"></div>
+              </div>
+              <div class="description-box">
+                <p>${panel.Description}</p>
+              </div>
+              <div class="grid-container">
+                <div class="grid-item"><strong>Board Number</strong><p>${panel.ID}</p></div>
+                <div class="grid-item"><strong>Traffic</strong><p>${panel.Traffic}</p></div>
+                <div class="grid-item"><strong>Board Size</strong><p>${panel.BoardSize}</p></div>
+                <div class="grid-item"><strong>Lat/Long</strong><p><a href="https://www.google.com/maps?q=${panel.Lat},${panel.Long}" target="_blank">${panel.Lat}, ${panel.Long}</a></p></div>
+                <div class="grid-item"><strong>Pricing</strong><p>${panel.Pricing}</p></div>
+                <div class="grid-item"><strong>Illuminated</strong><p>${panel.Illuminated}</p></div>
+              </div>
+            </div>
+          `;
+          // Display contentString in your popup
+          showPopup(contentString, panel.Lat, panel.Long);
+          panelFound = true; // Panel was found
+          break; // Exit the loop once the panel is found
+        }
+      }
+      if (panelFound) break; // Exit outer loop if panel is found
+    }
+  }
+
+  if (!panelFound) {
+    console.error(`Panel with ID ${panelId} not found.`);
+  }
+}
+
+function showPopup(info, Lat, Long) {
+  // Show overlay to block interactions with the map
+  popupOpen = true;
+  showOverlay();
+
+  // Create and show the popup
+  var popup = createCustomPopup(info);
+  // Position the popup at the center of the map
+  var popupOffsetX = popup.offsetWidth / 2;
+  var popupOffsetY = popup.offsetHeight / 2;
+  var center = map.getCenter();
+  var centerPixel = map.getProjection().fromLatLngToPoint(center);
+  var newPixelX = centerPixel.x - popupOffsetX;
+  var newPixelY = centerPixel.y - popupOffsetY;
+  var newLatLng = map
+    .getProjection()
+    .fromPointToLatLng(new google.maps.Point(newPixelX, newPixelY));
+  // Set the position of the popup
+  popup.style.left = map.getDiv().offsetWidth / 3 + "px";
+  popup.style.top = map.getDiv().offsetHeight / 9 + "px";
+
+  var miniMap = new google.maps.Map(document.getElementById("miniMap"), {
+    center: { lat: parseFloat(Lat), lng: parseFloat(Long) },
+    zoom: 15,
+    disableDefaultUI: true,
+  });
+
+  var miniMarker = new google.maps.Marker({
+    position: { lat: parseFloat(Lat), lng: parseFloat(Long) },
+    map: miniMap,
+  });
+  console.log("Mini map should be visible now."); // Debugging line
+}
+
+function createCustomPopup(content) {
+  var popupDiv = document.createElement("div");
+  popupDiv.classList.add("custom-popup");
+  popupDiv.innerHTML = content;
+  map.getDiv().appendChild(popupDiv);
+  return popupDiv;
+}
+
+// Function to show overlay
+function showOverlay() {
+  var overlay = document.createElement("div");
+  overlay.classList.add("overlay");
+  document.body.appendChild(overlay);
+}
 
 // Function to hide overlay
 function hideOverlay() {
@@ -24,6 +218,12 @@ function closePopup() {
   hideOverlay();
 }
 
+function closeInfoWindow() {
+  if (currentInfoWindow) {
+    currentInfoWindow.close();
+    currentInfoWindow = null;
+  }
+}
 async function initMap() {
   // Initialize the map
   /////////////////////////////////////////////////////////////////////////////////////////
@@ -32,6 +232,49 @@ async function initMap() {
     center: { lat: 41.450864, lng: -87.52645 }, // Center the map on Chicago
   });
   /////////////////////////////////////////////////////////////////////////////////////////
+  infoWindow = new google.maps.InfoWindow({
+    headerDisabled: true,
+  });
+
+  function showInfoWindow(markerId, marker) {
+    const buttonContainer = document.getElementById("button-container");
+
+    // Show the button container
+    buttonContainer.style.display = "block";
+
+    const board = panelData[markerId];
+    console.log(board.panels);
+
+    var panelsArr = [];
+    Object.keys(board.panels).forEach((panelId) => {
+      panelsArr.push(board.panels[panelId]);
+    });
+
+    const panel1 = panelsArr[0];
+    const panel2 = panelsArr[1];
+    console.log(panel1);
+    console.log(panel2);
+
+    const contentString = `
+      <div class="custom-info-window">
+        <div class="info-window-buttons">
+          <button class="info-window-button" onclick="showPanel('${panel1.ID}')">Show Panel ${panel1.ID}</button>
+          <button class="info-window-button" onclick="showPanel('${panel2.ID}')">Show Panel ${panel2.ID}</button>
+        </div>
+      </div>
+    `;
+
+    infoWindow.setContent(contentString);
+    infoWindow.open(map, marker);
+    currentInfoWindow = infoWindow;
+  }
+
+  google.maps.event.addListener(map, "click", function (event) {
+    if (currentInfoWindow) {
+      currentInfoWindow.close();
+      currentInfoWindow = null;
+    }
+  });
 
   //marker clusters
   /////////////////////////////////////////////////////////////////////////////////////////
@@ -84,55 +327,8 @@ async function initMap() {
 
   // Create a custom popup
   /////////////////////////////////////////////////////////////////////////////////////////
-  function createCustomPopup(content) {
-    var popupDiv = document.createElement("div");
-    popupDiv.classList.add("custom-popup");
-    popupDiv.innerHTML = content;
-    map.getDiv().appendChild(popupDiv);
-    return popupDiv;
-  }
-
-  // Function to show overlay
-  function showOverlay() {
-    var overlay = document.createElement("div");
-    overlay.classList.add("overlay");
-    document.body.appendChild(overlay);
-  }
 
   // Function to create and show the popup
-  function showPopup(info, Lat, Long) {
-    // Show overlay to block interactions with the map
-    popupOpen = true;
-    showOverlay();
-
-    // Create and show the popup
-    var popup = createCustomPopup(info);
-    // Position the popup at the center of the map
-    var popupOffsetX = popup.offsetWidth / 2;
-    var popupOffsetY = popup.offsetHeight / 2;
-    var center = map.getCenter();
-    var centerPixel = map.getProjection().fromLatLngToPoint(center);
-    var newPixelX = centerPixel.x - popupOffsetX;
-    var newPixelY = centerPixel.y - popupOffsetY;
-    var newLatLng = map
-      .getProjection()
-      .fromPointToLatLng(new google.maps.Point(newPixelX, newPixelY));
-    // Set the position of the popup
-    popup.style.left = map.getDiv().offsetWidth / 3 + "px";
-    popup.style.top = map.getDiv().offsetHeight / 9 + "px";
-
-    var miniMap = new google.maps.Map(document.getElementById("miniMap"), {
-      center: { lat: parseFloat(Lat), lng: parseFloat(Long) },
-      zoom: 15,
-      disableDefaultUI: true,
-    });
-
-    var miniMarker = new google.maps.Marker({
-      position: { lat: parseFloat(Lat), lng: parseFloat(Long) },
-      map: miniMap,
-    });
-    console.log("Mini map should be visible now."); // Debugging line
-  }
 
   /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -191,7 +387,7 @@ async function initMap() {
     //});
 
     marker.addListener("click", () => {
-      openPanelSelector(name);
+      showInfoWindow(name, marker);
     });
 
     clusterer.addMarker(marker);
@@ -342,94 +538,6 @@ async function initMap() {
     });
 
   /////////////////////////////////////////////////////////////////////////////////////////
-
-  function openPanelSelector(markerId) {
-    const panelSelector = document.getElementById("panel-selector");
-    const panelDropdown = document.getElementById("panelDropdown");
-
-    if (panelDropdown) {
-      panelDropdown.innerHTML = "";
-
-      const board = panelData[markerId];
-      if (board && board.panels) {
-        Object.keys(board.panels).forEach((panelId) => {
-          const panel = board.panels[panelId];
-          const option = document.createElement("option");
-          option.value = panel.ID;
-          option.text = `${panel.Facing} - ${panel.Description}`;
-          panelDropdown.appendChild(option);
-        });
-      } else {
-        console.error(`No panels found for markerId: ${markerId}`);
-      }
-
-      if (panelSelector) {
-        panelSelector.classList.remove("hidden");
-      } else {
-        console.error("Panel selector element not found.");
-      }
-
-      const viewPanelBtn = document.getElementById("viewPanelBtn");
-      if (viewPanelBtn) {
-        viewPanelBtn.onclick = () => {
-          const selectedPanelId = panelDropdown.value;
-          showPanel(selectedPanelId);
-        };
-      } else {
-        console.error("View Panel button not found.");
-      }
-    } else {
-      console.error("Panel dropdown element not found.");
-    }
-  }
-
-  function showPanel(panelId) {
-    let panelFound = false; // Flag to check if panel is found
-
-    for (const boardId in panelData) {
-      const board = panelData[boardId];
-      if (board && board.panels) {
-        for (const panelIdKey in board.panels) {
-          const panel = board.panels[panelIdKey];
-          if (panel.ID === panelId) {
-            const contentString = `
-              <button class="close-button" onclick="closePopup()">X</button>
-              <div class="popup-content">
-                <h1>${panel.Loc}</h1>
-                <div class="images-container">
-                  <div class="image-item">
-                    <img src="Data/${panel.Img}" alt="Billboard Image Front">
-                    <p><strong>${panel.Facing} Face</strong></p>
-                  </div>
-                  <div id="miniMap"></div>
-                </div>
-                <div class="description-box">
-                  <p>${panel.Description}</p>
-                </div>
-                <div class="grid-container">
-                  <div class="grid-item"><strong>Board Number</strong><p>${panel.ID}</p></div>
-                  <div class="grid-item"><strong>Traffic</strong><p>${panel.Traffic}</p></div>
-                  <div class="grid-item"><strong>Board Size</strong><p>${panel.BoardSize}</p></div>
-                  <div class="grid-item"><strong>Lat/Long</strong><p><a href="https://www.google.com/maps?q=${panel.Lat},${panel.Long}" target="_blank">${panel.Lat}, ${panel.Long}</a></p></div>
-                  <div class="grid-item"><strong>Pricing</strong><p>${panel.Pricing}</p></div>
-                  <div class="grid-item"><strong>Illuminated</strong><p>${panel.Illuminated}</p></div>
-                </div>
-              </div>
-            `;
-            // Display contentString in your popup
-            showPopup(contentString, panel.Lat, panel.Long);
-            panelFound = true; // Panel was found
-            break; // Exit the loop once the panel is found
-          }
-        }
-        if (panelFound) break; // Exit outer loop if panel is found
-      }
-    }
-
-    if (!panelFound) {
-      console.error(`Panel with ID ${panelId} not found.`);
-    }
-  }
 
   function createKey(name, location) {
     var mapKey = document.getElementById("mapKeyPopup");
